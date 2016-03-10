@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PONG</title>
+</head>
+<body>
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+
+<script>
+
+    var canvas;
+    var canvasContext;
+
+    window.onload = function() {
+        console.log("Hello World");
+
+        //save the canvas for dimensions and it's 2d context for drawing to it
+        canvas = document.getElementById('gameCanvas');
+        canvasContext = canvas.getContext('2d');
+
+        draw();
+
+    }
+
+    function draw() {
+
+        //clear game view by filling it with black
+        canvasContext.fillStyle = '#000000';
+        canvasContext.fillRect(0, 0, canvas.width, canvas.height);
+
+        //draw a white circle
+        canvasContext.fillStyle = '#FFFFFF';
+        canvasContext.beginPath();
+        canvasContext.arc(75, 75, 10, 0, Math.PI * 2, true); //x,y,radius,start angle, end angle, counterclockwise
+        canvasContext.fill();
+    }
+
+
+
+</script>
+    
+</body>
+</html>
