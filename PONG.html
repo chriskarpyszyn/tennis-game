@@ -15,6 +15,9 @@
     var ballX = 75;
     var ballY = 75;
 
+    var ballSpeedX = 6;
+    var ballSpeedY = 6;
+
     
 
     window.onload = function() {
@@ -33,7 +36,23 @@
     }
 
     function move() {
-        ballX += 2;
+
+        if (ballX >= canvas.width) {
+            ballSpeedX *= -1;
+        }
+        if (ballX <= 0) {
+            ballSpeedX *= -1;
+        }
+        if (ballY >= canvas.height) {
+            ballSpeedY *= -1;
+        }
+        if (ballY <= 0) {
+            ballSpeedY *= -1;
+        }
+
+        ballX += ballSpeedX;
+        ballY += ballSpeedY;
+
     }
 
     function draw() {
