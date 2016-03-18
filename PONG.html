@@ -18,7 +18,11 @@
     var ballSpeedX = 6;
     var ballSpeedY = 6;
 
-    
+    var paddle1X = 0;
+    var paddle1Y = 250;
+    var paddle1Width = 10;
+    var paddle1Height = 100;
+
 
     window.onload = function() {
         console.log("Hello World");
@@ -55,20 +59,29 @@
 
     }
 
+    function colorRect(topLeftX, topRightY, boxWidth, boxHeight, fillColor) {
+        canvasContext.fillStyle = fillColor;
+        canvasContext.fillRect(topLeftX, topRightY, boxWidth, boxHeight);
+    }
+
+    function colorCircle(centerX, centerY, radius, fillColor) {
+        canvasContext.fillStyle = fillColor;
+        canvasContext.beginPath();
+        canvasContext.arc(centerX, centerY, radius, 0, Math.PI * 2, true);
+        canvasContext.fill();
+    }
+
     function draw() {
 
         //test
         //ballX += 50;
 
         //clear game view by filling it with black
-        canvasContext.fillStyle = '#000000';
-        canvasContext.fillRect(0, 0, canvas.width, canvas.height);
-
+        colorRect(0, 0, canvas.width, canvas.height, '#000000');
+        colorRect(paddle1X, paddle1Y, paddle1Width, paddle1Height, '#FFFFFF');
+       
         //draw a white circle
-        canvasContext.fillStyle = '#FFFFFF';
-        canvasContext.beginPath();
-        canvasContext.arc(ballX, ballY, 10, 0, Math.PI * 2, true); //x,y,radius,start angle, end angle, counterclockwise
-        canvasContext.fill();
+        colorCircle(ballX, ballY, 10, '#FFFFFF');
 
 
     }
