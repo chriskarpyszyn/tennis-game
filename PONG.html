@@ -15,14 +15,18 @@
     var ballX = 75;
     var ballY = 75;
 
-    var ballSpeedX = 6;
+    var ballSpeedX = 16;
     var ballSpeedY = 6;
+
+    const PADDLE_WIDTH = 10;
+    var paddle1Height = 100;
+    var paddle2Height = 100;
 
     var paddle1X = 0;
     var paddle1Y = 250;
-    const paddle1Width = 10;
-    var paddle1Height = 100;
 
+    
+    var paddle2Y = 250;
 
     window.onload = function() {
         console.log("Hello World");
@@ -36,6 +40,7 @@
         canvas.addEventListener('mousemove', function(evt) {
             var mousePos = calculateMousePos(evt);
             paddle1Y = mousePos.y - (paddle1Height / 2);
+            paddle2Y = mousePos.y - (paddle2Height / 2);
         });
         
         setInterval(function () {
@@ -48,10 +53,18 @@
     function move() {
 
         if (ballX >= canvas.width) {
-            ballSpeedX *= -1;
+            if (ballY > paddle2Y && ballY < paddle2Y + paddle2Height) {
+                ballSpeedX *= -1;
+            } else {
+                ballReset();
+            }
         }
         if (ballX <= 0) {
-            ballSpeedX *= -1;
+            if (ballY > paddle1Y && ballY < paddle1Y + paddle1Height) {
+                ballSpeedX *= -1;
+            } else {
+                ballReset();
+            }
         }
         if (ballY >= canvas.height) {
             ballSpeedY *= -1;
@@ -63,6 +76,12 @@
         ballX += ballSpeedX;
         ballY += ballSpeedY;
 
+    }
+
+    function ballReset() {
+        ballX = canvas.width / 2;
+        ballY = canvas.height / 2;
+        ballSpeedX *= -1;
     }
 
     function colorRect(topLeftX, topRightY, boxWidth, boxHeight, fillColor) {
@@ -84,7 +103,8 @@
 
         //clear game view by filling it with black
         colorRect(0, 0, canvas.width, canvas.height, '#000000');
-        colorRect(paddle1X, paddle1Y, paddle1Width, paddle1Height, '#FFFFFF');
+        colorRect(paddle1X, paddle1Y, PADDLE_WIDTH, paddle1Height, '#FFFFFF');
+        colorRect(canvas.width - PADDLE_WIDTH, paddle2Y, PADDLE_WIDTH, paddle2Height, '#FFFFFF');
        
         //draw a white circle
         colorCircle(ballX, ballY, 10, '#FFFFFF');
