@@ -20,20 +20,26 @@
 
     var paddle1X = 0;
     var paddle1Y = 250;
-    var paddle1Width = 10;
+    const paddle1Width = 10;
     var paddle1Height = 100;
 
 
     window.onload = function() {
         console.log("Hello World");
 
-        var fps = 30;
+        const fps = 30;
 
         //save the canvas for dimensions and it's 2d context for drawing to it
         canvas = document.getElementById('gameCanvas');
         canvasContext = canvas.getContext('2d');
 
-        setInterval(function () { move();
+        canvas.addEventListener('mousemove', function(evt) {
+            var mousePos = calculateMousePos(evt);
+            paddle1Y = mousePos.y - (paddle1Height / 2);
+        });
+        
+        setInterval(function () {
+            move();
             draw();
         }, 1000/fps);
 
@@ -83,7 +89,19 @@
         //draw a white circle
         colorCircle(ballX, ballY, 10, '#FFFFFF');
 
+    }
 
+    function calculateMousePos(evt) {
+        var rect = canvas.getBoundingClientRect(), root = document.documentElement;
+
+        //account for margins, canvas position on page, scroll amount
+        var mouseX = evt.clientX - rect.left - root.scrollLeft;
+        var mouseY = evt.clientY - rect.top - root.scrollTop;
+
+        return {
+            x: mouseX,
+            y: mouseY
+        }
     }
 
 
