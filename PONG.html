@@ -28,6 +28,9 @@
     
     var paddle2Y = 250;
 
+    var player1Score = 0;
+    var player2Score = 0;
+
     window.onload = function() {
         console.log("Hello World");
 
@@ -40,7 +43,7 @@
         canvas.addEventListener('mousemove', function(evt) {
             var mousePos = calculateMousePos(evt);
             paddle1Y = mousePos.y - (paddle1Height / 2);
-            paddle2Y = mousePos.y - (paddle2Height / 2);
+            //paddle2Y = mousePos.y - (paddle2Height / 2);
         });
         
         setInterval(function () {
@@ -56,6 +59,7 @@
             if (ballY > paddle2Y && ballY < paddle2Y + paddle2Height) {
                 ballSpeedX *= -1;
             } else {
+                player1Score += 1;
                 ballReset();
             }
         }
@@ -63,6 +67,7 @@
             if (ballY > paddle1Y && ballY < paddle1Y + paddle1Height) {
                 ballSpeedX *= -1;
             } else {
+                player2Score += 1;
                 ballReset();
             }
         }
@@ -109,6 +114,10 @@
         //draw a white circle
         colorCircle(ballX, ballY, 10, '#FFFFFF');
 
+        //write text      
+        drawText(`Player1: ${player1Score}`, 100, 100, "#FFFFFF", "24px Comic Sans MS");
+        drawText(`Player2: ${player2Score}`, (canvas.width / 2) + 100, 100, "#FFFFFF", "24px Comic Sans MS");
+
     }
 
     function calculateMousePos(evt) {
@@ -122,6 +131,14 @@
             x: mouseX,
             y: mouseY
         }
+    }
+
+    function drawText(text, x, y, color, font) {
+        //http://stackoverflow.com/questions/3697615/how-can-i-write-text-on-a-html5-canvas-element
+
+        canvasContext.fillStyle = color;
+        canvasContext.font = font;
+        canvasContext.fillText(text, x, y);
     }
 
 
