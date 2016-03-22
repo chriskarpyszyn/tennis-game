@@ -15,6 +15,7 @@
     var ballX = 75;
     var ballY = 75;
 
+    var ySpeedMultiplier = 0.35;
     var ballSpeedX = 16;
     var ballSpeedY = 6;
 
@@ -43,7 +44,7 @@
         canvas.addEventListener('mousemove', function(evt) {
             var mousePos = calculateMousePos(evt);
             paddle1Y = mousePos.y - (paddle1Height / 2);
-            //paddle2Y = mousePos.y - (paddle2Height / 2);
+            paddle2Y = mousePos.y - (paddle2Height / 2);
         });
         
         setInterval(function () {
@@ -55,19 +56,29 @@
 
     function move() {
 
+        //right paddle collision
         if (ballX >= canvas.width) {
             if (ballY > paddle2Y && ballY < paddle2Y + paddle2Height) {
                 ballSpeedX *= -1;
+                var deltaY = ballY - (paddle2Y + paddle2Height / 2);
+                ballSpeedY = deltaY * ySpeedMultiplier;
+
             } else {
-                player1Score += 1;
+                player1Score++;
                 ballReset();
             }
         }
+        //left paddle collision
         if (ballX <= 0) {
             if (ballY > paddle1Y && ballY < paddle1Y + paddle1Height) {
                 ballSpeedX *= -1;
+
+                //collision test Y
+                var deltaY = ballY - (paddle1Y + paddle1Height / 2);
+                ballSpeedY = deltaY * ySpeedMultiplier;
+
             } else {
-                player2Score += 1;
+                player2Score++;
                 ballReset();
             }
         }
@@ -87,6 +98,7 @@
         ballX = canvas.width / 2;
         ballY = canvas.height / 2;
         ballSpeedX *= -1;
+        ballSpeedY = 6;
     }
 
     function colorRect(topLeftX, topRightY, boxWidth, boxHeight, fillColor) {
