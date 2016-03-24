@@ -71,7 +71,7 @@
             } else {
                 player1Score++;
                 if (player1Score >= MAX_SCORE) {
-                    drawText(`Player 1 Wins!`, (canvas.width / 2), canvas.height, "#FFFFFF", "24px Comic Sans MS");
+                    drawText(`Player 1 Wins!`, (canvas.width / 2), canvas.height/2, "#FFFFFF", "24px Comic Sans MS", 'center');
                     player1Score = 0;
                     player2Score = 0;
                 } 
@@ -90,7 +90,7 @@
             } else {
                 player2Score++;
                 if (player2Score >= MAX_SCORE) {
-                    drawText(`Player 2 Wins!`, (canvas.width / 2), canvas.height, "#FFFFFF", "24px Comic Sans MS");
+                    drawText(`Player 2 Wins!`, (canvas.width / 2), canvas.height/2, "#FFFFFF", "24px Comic Sans MS", 'center');
                     player1Score = 0;
                     player2Score = 0;
                 } 
@@ -142,9 +142,8 @@
         colorCircle(ballX, ballY, 10, '#FFFFFF');
 
         //write text      
-        drawText(`Player1: ${player1Score}`, 100, 100, "#FFFFFF", "24px Comic Sans MS");
-        //TODO: figure out how to display text 100 pixels from right from last value of text
-        drawText(`Player2: ${player2Score}`, (canvas.width / 2) + 100, 100, "#FFFFFF", "24px Comic Sans MS");
+        drawText(`Player1: ${player1Score}`, 100, 100, "#FFFFFF", "24px Comic Sans MS", 'left');
+        drawText(`Player2: ${player2Score}`, canvas.width-100, 100, "#FFFFFF", "24px Comic Sans MS", 'right');
 
     }
 
@@ -161,11 +160,19 @@
         }
     }
 
-    function drawText(text, x, y, color, font) {
-        //http://stackoverflow.com/questions/3697615/how-can-i-write-text-on-a-html5-canvas-element
+    //function drawText(text, x, y, color, font) {
+    //    //http://stackoverflow.com/questions/3697615/how-can-i-write-text-on-a-html5-canvas-element
+
+    //    canvasContext.fillStyle = color;
+    //    canvasContext.font = font;
+    //    canvasContext.fillText(text, x, y);
+    //}
+
+    function drawText(text, x, y, color, font, textAlign) {
 
         canvasContext.fillStyle = color;
         canvasContext.font = font;
+        canvasContext.textAlign = textAlign;
         canvasContext.fillText(text, x, y);
     }
 
