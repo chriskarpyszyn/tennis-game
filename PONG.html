@@ -36,6 +36,8 @@
 
     const MAX_SCORE = 3;
 
+    var showingWinScreen = false;
+
     window.onload = function() {
         console.log("Hello World");
 
@@ -50,6 +52,12 @@
             paddle1Y = mousePos.y - (paddle1Height / 2);
             //paddle2Y = mousePos.y - (paddle2Height / 2);
         });
+
+        canvas.addEventListener('mousedown', function() {
+            player1Score = 0;
+            player2Score = 0;
+            showingWinScreen = false;
+        })
         
         setInterval(function () {
             move();
@@ -59,6 +67,9 @@
     }
 
     function move() {
+
+        if (showingWinScreen)
+            return;
 
         moveComputerPaddle();
 
@@ -70,11 +81,6 @@
                 ballSpeedY = deltaY * ySpeedMultiplier;
             } else {
                 player1Score++;
-                if (player1Score >= MAX_SCORE) {
-                    drawText(`Player 1 Wins!`, (canvas.width / 2), canvas.height/2, "#FFFFFF", "24px Comic Sans MS", 'center');
-                    player1Score = 0;
-                    player2Score = 0;
-                } 
                 ballReset();
             }
         }
@@ -88,15 +94,15 @@
                 ballSpeedY = deltaY * ySpeedMultiplier;
 
             } else {
-                player2Score++;
-                if (player2Score >= MAX_SCORE) {
-                    drawText(`Player 2 Wins!`, (canvas.width / 2), canvas.height/2, "#FFFFFF", "24px Comic Sans MS", 'center');
-                    player1Score = 0;
-                    player2Score = 0;
-                } 
+                player2Score++; 
                 ballReset();
             }
         }
+
+        if (player1Score >= MAX_SCORE || player2Score >= MAX_SCORE) {
+            showingWinScreen = true;
+        }
+
         if (ballY >= canvas.height) {
             ballSpeedY *= -1;
         }
@@ -135,15 +141,31 @@
 
         //clear game view by filling it with black
         colorRect(0, 0, canvas.width, canvas.height, '#000000');
-        colorRect(paddle1X, paddle1Y, PADDLE_WIDTH, paddle1Height, '#FFFFFF');
-        colorRect(canvas.width - PADDLE_WIDTH, paddle2Y, PADDLE_WIDTH, paddle2Height, '#FFFFFF');
-       
-        //draw a white circle
-        colorCircle(ballX, ballY, 10, '#FFFFFF');
 
         //write text      
         drawText(`Player1: ${player1Score}`, 100, 100, "#FFFFFF", "24px Comic Sans MS", 'left');
         drawText(`Player2: ${player2Score}`, canvas.width-100, 100, "#FFFFFF", "24px Comic Sans MS", 'right');
+
+        if (!showingWinScreen) {
+            colorRect(paddle1X, paddle1Y, PADDLE_WIDTH, paddle1Height, '#FFFFFF');
+            colorRect(canvas.width - PADDLE_WIDTH, paddle2Y, PADDLE_WIDTH, paddle2Height, '#FFFFFF');
+           
+            //draw a white circle
+            colorCircle(ballX, ballY, 10, '#FFFFFF');
+        }
+        else {
+            var winText;
+            if (player1Score == MAX_SCORE)
+                winText = `Player 1 `;
+            else
+                winText = `Player 2 `;
+
+            drawText(`${winText} Wins!`, (canvas.width / 2), canvas.height/2, "#FFFFFF", "24px Comic Sans MS", 'center');
+            drawText("Click Mouse Button to continue", canvas.width/2, canvas.height-50, "#FFFFFF", "16px Comic Sans MS", 'center');
+
+        }
+
+        
 
     }
 
