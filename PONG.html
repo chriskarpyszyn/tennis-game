@@ -146,12 +146,20 @@
         drawText(`Player1: ${player1Score}`, 100, 100, "#FFFFFF", "24px Comic Sans MS", 'left');
         drawText(`Player2: ${player2Score}`, canvas.width-100, 100, "#FFFFFF", "24px Comic Sans MS", 'right');
 
+        ///TODO: Add Start Screen Game State
         if (!showingWinScreen) {
             colorRect(paddle1X, paddle1Y, PADDLE_WIDTH, paddle1Height, '#FFFFFF');
             colorRect(canvas.width - PADDLE_WIDTH, paddle2Y, PADDLE_WIDTH, paddle2Height, '#FFFFFF');
            
             //draw a white circle
             colorCircle(ballX, ballY, 10, '#FFFFFF');
+
+            //draw net
+           // var i = 0;
+            for (var i=0; i<=canvas.height; i+=40) {
+                colorRect(canvas.width/2-1, i, 2, 20, '#FFFFFF');
+            }
+            
         }
         else {
             var winText;
