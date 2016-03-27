@@ -241,8 +241,12 @@
     function pong() {
         colorRect(0, 0, canvas.width, canvas.height, '#000000');
         drawText("PONG", canvas.width / 2, canvas.height / 2, '#FFFFFF', "30px Comic Sans MS", 'center');
-        stateStartScreen = false;
-        stateMainGame = true;
+
+        setTimeout(function() {
+            stateStartScreen = false;
+            stateMainGame = true;
+        }, 1000);
+
     }
 
 
