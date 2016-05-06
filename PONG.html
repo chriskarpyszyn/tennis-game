@@ -15,10 +15,15 @@
     var ballX = 75;
     var ballY = 75;
 
-    const BALL_SPEED_X = 26 / 4;
-    const BALL_SPEED_Y = 8/4;
+    const FPS_MULTIPLIER = 4;
 
-    var ySpeedMultiplier = 0.35/4;
+    const BALL_SPEED_X = 26 / FPS_MULTIPLIER;
+    const BALL_SPEED_Y = 16 / FPS_MULTIPLIER;
+
+    const MIN_SPEED_Y = 5 / FPS_MULTIPLIER;
+    const MAX_SPEED_Y = 14 / FPS_MULTIPLIER;
+
+    var ySpeedMultiplier = 0.35 / FPS_MULTIPLIER;
     var ballSpeedX = BALL_SPEED_X;
     var ballSpeedY = BALL_SPEED_Y;
     var ballArc = 8;
@@ -126,7 +131,14 @@
         ballX = canvas.width / 2;
         ballY = canvas.height / 2;
         ballSpeedX *= -1;
-        ballSpeedY = BALL_SPEED_Y
+
+        ballSpeedY = MIN_SPEED_Y + (Math.random() * (MAX_SPEED_Y - MIN_SPEED_Y));
+        console.log(ballSpeedY);
+        if (Math.random() > 0.5) {
+            ballSpeedY *= -1.0;
+            console.log(ballSpeedY);
+        }
+
     }
 
     function colorRect(topLeftX, topRightY, boxWidth, boxHeight, fillColor) {
