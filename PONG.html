@@ -69,10 +69,12 @@
             //paddle2Y = mousePos.y - (paddle2Height / 2);
         });
 
-        canvas.addEventListener('mousedown', function() {
-            player1Score = 0;
-            player2Score = 0;
-            showingWinScreen = false;
+        canvas.addEventListener('mousedown', function () {
+            if (showingWinScreen === true) {
+                player1Score = 0;
+                player2Score = 0;
+                showingWinScreen = false;
+            }
         });
         
         setInterval(function () {
