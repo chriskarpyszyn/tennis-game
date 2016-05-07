@@ -7,6 +7,7 @@
 <body>
     <canvas id="gameCanvas" width="800" height="600"></canvas>
 
+<script src="js/SoundAndMusic.js"></script>
 <script>
 
     var canvas;
@@ -50,6 +51,9 @@
 
     var showingWinScreen = false;
 
+    var soundBallBounce = new SoundOverlap("sound/blip");
+    var soundMiss = new SoundOverlap("sound/miss");
+
     window.onload = function() {
         console.log("Hello World");
 
@@ -69,7 +73,7 @@
             player1Score = 0;
             player2Score = 0;
             showingWinScreen = false;
-        })
+        });
         
         setInterval(function () {
             move();
@@ -91,6 +95,7 @@
                 ballSpeedX *= -1;
                 var deltaY = ballY - (paddle2Y + paddle2Height / 2);
                 ballSpeedY = deltaY * ySpeedMultiplier;
+                soundBallBounce.play();
             } else {
                 player1Score++;
                 ballReset();
@@ -104,7 +109,7 @@
                 //collision test Y
                 var deltaY = ballY - (paddle1Y + paddle1Height / 2);
                 ballSpeedY = deltaY * ySpeedMultiplier;
-
+                soundBallBounce.play();
             } else {
                 player2Score++; 
                 ballReset();
@@ -117,9 +122,11 @@
 
         if (ballY >= canvas.height) {
             ballSpeedY *= -1;
+            soundBallBounce.play();
         }
         if (ballY <= 0) {
             ballSpeedY *= -1;
+            soundBallBounce.play();
         }
 
         ballX += ballSpeedX;
@@ -128,6 +135,7 @@
     }
 
     function ballReset() {
+        soundMiss.play();
         ballX = canvas.width / 2;
         ballY = canvas.height / 2;
         ballSpeedX *= -1;
