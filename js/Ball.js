@@ -14,9 +14,9 @@ const BALL_SPEED_Y = 7 / FPS_MULTIPLIER;
 var ballHitCounter = 0;
 
 const MIN_SPEED_Y = 5 / FPS_MULTIPLIER;
-const MAX_SPEED_Y = 20 / FPS_MULTIPLIER;
+const MAX_SPEED_Y = 15 / FPS_MULTIPLIER;
 
-var ySpeedMultiplier = 0.38 / FPS_MULTIPLIER;
+var ySpeedMultiplier = 0.35 / FPS_MULTIPLIER;
 var ballSpeedX = MIN_BALL_SPEED_X;
 var ballSpeedY = BALL_SPEED_Y;
 var ballArc = 8;

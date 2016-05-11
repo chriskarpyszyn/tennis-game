@@ -1,7 +1,7 @@
 const PADDLE_WIDTH = 10;
-const PADDLE_HEIGHT = 87;
+const PADDLE_HEIGHT = 99;
 
-const DEAD_ZONE = 43;
+const DEAD_ZONE = 45;
 
 var paddle1Height = PADDLE_HEIGHT;
 var paddle2Height = PADDLE_HEIGHT;
