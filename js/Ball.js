@@ -26,31 +26,31 @@ var soundMiss = new SoundOverlap("sound/miss");
 
 function moveBall() {
     //right paddle collision
-    if (ballX >= canvas.width) {
+    if (ballX >= paddle2X - PADDLE_WIDTH && ballX < paddle2X) {
         if (ballY > paddle2Y && ballY < paddle2Y + paddle2Height) {
             ballSpeedX *= -1;
             increaseHitCountAndCheckSpeed();
             var deltaY = ballY - (paddle2Y + paddle2Height / 2);
             ballSpeedY = deltaY * ySpeedMultiplier;
             soundBallBounce.play();
-        } else {
-            player1Score++;
-            ballReset();
         }
+    } else if (ballX > canvas.width) {
+        player1Score++;
+        ballReset();
     }
     //left paddle collision
-    if (ballX <= 0) {
-        if (ballY > paddle1Y && ballY < paddle1Y + paddle1Height) {
+    if (ballX < paddle1X+PADDLE_WIDTH && ballX > paddle1X) {
+        if (ballY > paddle1Y && ballY < paddle1Y + paddle1Height ) {
             ballSpeedX *= -1;
             increaseHitCountAndCheckSpeed();
             //collision test Y
             var deltaY = ballY - (paddle1Y + paddle1Height / 2);
             ballSpeedY = deltaY * ySpeedMultiplier;
             soundBallBounce.play();
-        } else {
-            player2Score++;
-            ballReset();
-        }
+        } 
+    } else if (ballX < 0) {
+        player2Score++;
+        ballReset();
     }
 
     if (ballY >= canvas.height) {
