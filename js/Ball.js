@@ -55,11 +55,11 @@ function moveBall() {
 
     if (ballY >= canvas.height) {
         ballSpeedY *= -1;
-        soundBallBounce.play();
+        //soundBallBounce.play();
     }
     if (ballY <= 0) {
         ballSpeedY *= -1;
-        soundBallBounce.play();
+        //soundBallBounce.play();
     }
 
     ballX += ballSpeedX;
@@ -109,5 +109,6 @@ function changeSpeedKeepDirection(newBallSpeed) {
 
 function drawBall() {
     //draw a white circle
-    colorCircle(ballX, ballY, ballArc, "#FFFFFF");
+    //colorCircle(ballX, ballY, ballArc, "#FFFFFF");
+    drawBitmapCenteredAtLocationWithRotation(ballPic, ballX, ballY, 0);
 }

@@ -17,6 +17,10 @@ window.onload = function () {
     setupMouseEventHandlers();
     ballReset();
 
+    loadImages();
+}
+
+function startGame() {
     setInterval(function () {
         move();
         draw();
@@ -33,7 +37,8 @@ function move() {
 
 function draw() {
     //clear game view by filling it with black
-    colorRect(0, 0, canvas.width, canvas.height, "#000000");
+    //colorRect(0, 0, canvas.width, canvas.height, "#000000");
+    drawBitmapCenteredAtLocationWithRotation(bgPic, canvas.width / 2, canvas.height / 2, 0);
 
     //write text      
     drawText(`Player1: ${player1Score}`, 100, 100, "#FFFFFF", "24px Comic Sans MS", 'left');
@@ -43,7 +48,7 @@ function draw() {
     if (!showingWinScreen) {
         drawPaddle();
         drawBall();
-        drawNet();
+        //drawNet();
     } else {
         let winText;
         if (player1Score === MAX_SCORE) {
