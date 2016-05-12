@@ -13,7 +13,14 @@ var paddle2X = (1000 - PADDLE_WIDTH) - PADDLE_MARGIN;
 var paddle1Y = 250;
 var paddle2Y = 250;
 
-const PADDLE_COMPUTER_MOVE_SPEED = 3;
+var p1_keyHeld_up = false;
+var p1_keyHeld_down = false;
+var p2_keyHeld_up = false;
+var p2_keyHeld_down = false;
+
+const KEYBOARD_PADDLE_SPEED = 5;
+
+const PADDLE_COMPUTER_MOVE_SPEED = 1;
 
 
 function moveComputerPaddle() {
@@ -28,7 +35,22 @@ function moveComputerPaddle() {
 }
 
 function movePaddle() {
-    moveComputerPaddle();
+    if (false) { //will make this a check for 1 player mode
+        moveComputerPaddle();
+    } else {
+        if (p1_keyHeld_up && paddle1Y >=0) {
+            paddle1Y -= KEYBOARD_PADDLE_SPEED;
+        }
+        if (p1_keyHeld_down && paddle1Y+PADDLE_HEIGHT <= canvas.height) {
+            paddle1Y += KEYBOARD_PADDLE_SPEED;
+        }
+        if (p2_keyHeld_up && paddle2Y >=0) {
+            paddle2Y -= KEYBOARD_PADDLE_SPEED;
+        }
+        if (p2_keyHeld_down && paddle2Y+PADDLE_HEIGHT <= canvas.height) {
+            paddle2Y += KEYBOARD_PADDLE_SPEED;
+        }
+    }
 }
 
 function drawPaddle() {

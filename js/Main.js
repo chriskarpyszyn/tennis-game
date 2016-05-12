@@ -14,7 +14,7 @@ window.onload = function () {
     canvas = document.getElementById("gameCanvas");
     canvasContext = canvas.getContext("2d");
 
-    setupMouseEventHandlers();
+    initEventHandlers();
     ballReset();
 
     loadImages();
@@ -40,7 +40,7 @@ function draw() {
     //colorRect(0, 0, canvas.width, canvas.height, "#000000");
     drawBitmapCenteredAtLocationWithRotation(bgPic, canvas.width / 2, canvas.height / 2, 0);
 
-    //write text      
+    //write text
     drawText(`Player1: ${player1Score}`, 100, 100, "#FFFFFF", "24px Comic Sans MS", 'left');
     drawText(`Player2: ${player2Score}`, canvas.width - 100, 100, "#FFFFFF", "24px Comic Sans MS", 'right');
 
