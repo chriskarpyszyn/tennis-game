@@ -1,5 +1,4 @@
-var ballX = 75;
-var ballY = 75;
+var ballX, ballY;
 
 const FPS_MULTIPLIER = 4;
 
@@ -47,7 +46,7 @@ function moveBall() {
             var deltaY = ballY - (paddle1Y + paddle1Height / 2);
             ballSpeedY = deltaY * ySpeedMultiplier;
             soundBallBounce.play();
-        } 
+        }
     } else if (ballX < 0) {
         player2Score++;
         ballReset();
@@ -84,6 +83,11 @@ function ballReset() {
         ballSpeedY *= -1.0;
         console.log(ballSpeedY);
     }
+}
+
+function initBall() {
+    ballX = canvas.width / 2;
+    ballY = canvas.height / 2;
 }
 
 function increaseHitCountAndCheckSpeed() {
