@@ -25,7 +25,7 @@ var soundMiss = new SoundOverlap("sound/miss");
 
 function moveBall() {
     //right paddle collision
-    if (ballX >= paddle2X - PADDLE_WIDTH && ballX < paddle2X) {
+    if (ballX >= paddle2X - PADDLE_WIDTH && ballX < paddle2X && ballSpeedX>0) {
         if (ballY > paddle2Y && ballY < paddle2Y + paddle2Height) {
             ballSpeedX *= -1;
             increaseHitCountAndCheckSpeed();
@@ -38,7 +38,7 @@ function moveBall() {
         ballReset();
     }
     //left paddle collision
-    if (ballX < paddle1X+PADDLE_WIDTH && ballX > paddle1X) {
+    if (ballX < paddle1X+PADDLE_WIDTH && ballX > paddle1X && ballSpeedX <0) {
         if (ballY > paddle1Y && ballY < paddle1Y + paddle1Height ) {
             ballSpeedX *= -1;
             increaseHitCountAndCheckSpeed();
