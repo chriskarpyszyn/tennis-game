@@ -20,7 +20,7 @@ var p2_keyHeld_down = false;
 
 const KEYBOARD_PADDLE_SPEED = 5;
 
-const PADDLE_COMPUTER_MOVE_SPEED = 1;
+const PADDLE_COMPUTER_MOVE_SPEED = 3;
 
 
 function moveComputerPaddle() {
@@ -35,7 +35,7 @@ function moveComputerPaddle() {
 }
 
 function movePaddle() {
-    if (false) { //will make this a check for 1 player mode
+    if (onePlayerMode) {
         moveComputerPaddle();
     } else {
         if (p1_keyHeld_up && paddle1Y >=0) {

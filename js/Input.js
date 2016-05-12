@@ -31,8 +31,27 @@ function setKeyHoldState(keyCode, setTo) {
 
 function mousemoveHandler(evt) {
     var mousePos = calculateMousePos(evt);
-    paddle1Y = mousePos.y - (paddle1Height / 2);
-    //paddle2Y = mousePos.y - (paddle2Height / 2);
+    if (onePlayerMode) {
+        paddle1Y = mousePos.y - (paddle1Height / 2);
+    }
+
+    if (startScreenState) {
+
+        if (checkIfMouseOverPlayer1(mousePos.x, mousePos.y)) {
+            mouseOver_Player1 = true;
+            mouseOver_Player2 = false;
+        } else {
+            mouseOver_Player1 = false;
+        }
+
+        if (checkIfMouseOverPlayer2(mousePos.x, mousePos.y)) {
+            //colorRect(canvas.width/2-70, canvas.height*.40-30, 150, 40, 'pink');
+            mouseOver_Player2 = true;
+            mouseOver_Player1 = false;
+        } else {
+            mouseOver_Player2 = false;
+        }
+    }
 }
 
 function mousedownHandler(evt) {
@@ -40,6 +59,17 @@ function mousedownHandler(evt) {
         player1Score = 0;
         player2Score = 0;
         showingWinScreen = false;
+    }
+    if (startScreenState) {
+        var mousePos = calculateMousePos(evt);
+        if (checkIfMouseOverPlayer1(mousePos.x, mousePos.y)) {
+            onePlayerMode = true;
+            startScreenState = false;
+        }
+        if (checkIfMouseOverPlayer2(mousePos.x, mousePos.y)) {
+            onePlayerMode = false;
+            startScreenState = false;
+        }
     }
 }
 
@@ -61,4 +91,26 @@ function calculateMousePos(evt) {
         x: mouseX,
         y: mouseY
     }
+}
+
+function checkIfMouseOverPlayer1(x,y) {
+    if (x > canvas.width/2-70 && x < canvas.width/2+80) {
+        if (y > canvas.height*.30-30 && y < canvas.height*.30+10) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    return false;
+}
+
+function checkIfMouseOverPlayer2(x,y) {
+    if (x > canvas.width/2-70 && x < canvas.width/2+80) {
+        if (y > canvas.height*.40-30 && y < canvas.height*.40+10) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    return false;
 }

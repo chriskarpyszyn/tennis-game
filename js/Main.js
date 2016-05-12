@@ -7,7 +7,13 @@ var player1Score = 0;
 var player2Score = 0;
 const MAX_SCORE = 11;
 
+var startScreenState = true;
 var showingWinScreen = false;
+
+var mouseOver_Player1 = false;
+var mouseOver_Player2 = false;
+
+var onePlayerMode = true;
 
 window.onload = function () {
     //save the canvas for dimensions and it's 2d context for drawing to it
@@ -28,7 +34,7 @@ function startGame() {
 }
 
 function move() {
-    if (showingWinScreen) {
+    if (showingWinScreen || startScreenState) {
         return;
     }
     moveBall();
@@ -36,8 +42,26 @@ function move() {
 }
 
 function draw() {
-    //clear game view by filling it with black
-    //colorRect(0, 0, canvas.width, canvas.height, "#000000");
+
+    if (startScreenState) {
+        colorRect(0, 0, canvas.width, canvas.height, "#000000");
+        if (mouseOver_Player1) {
+            drawText("1 Player", canvas.width/2, canvas.height*.30, "#45D0FF", "30px Comic Sans MS", "center");
+        } else {
+            drawText("1 Player", canvas.width/2, canvas.height*.30, "#FFFFFF", "30px Comic Sans MS", "center");
+        }
+
+        if (mouseOver_Player2) {
+            drawText("2 Players", canvas.width/2, canvas.height*.40, "#45D0FF", "30px Comic Sans MS", "center");
+        } else {
+            drawText("2 Players", canvas.width/2, canvas.height*.40, "#FFFFFF", "30px Comic Sans MS", "center");
+        }
+
+        return;
+    }
+
+
+
     drawBitmapCenteredAtLocationWithRotation(bgPic, canvas.width / 2, canvas.height / 2, 0);
 
     //write text
