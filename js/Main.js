@@ -5,7 +5,7 @@ const fps = 120;
 
 var player1Score = 0;
 var player2Score = 0;
-const MAX_SCORE = 11;
+const MAX_SCORE = 12;
 
 var startScreenState = true;
 var showingWinScreen = false;
@@ -66,14 +66,33 @@ function draw() {
     drawBitmapCenteredAtLocationWithRotation(bgPic, canvas.width / 2, canvas.height / 2, 0);
 
     //write text
-    drawText(`Player1: ${player1Score}`, 100, 100, "#FFFFFF", "24px Comic Sans MS", 'left');
-    drawText(`Player2: ${player2Score}`, canvas.width - 100, 100, "#FFFFFF", "24px Comic Sans MS", 'right');
+    //drawText(`Player1: ${player1Score}`, 100, 100, "#FFFFFF", "24px Comic Sans MS", 'left');
+    //drawText(`Player2: ${player2Score}`, canvas.width - 100, 100, "#FFFFFF", "24px Comic Sans MS", 'right');
+    var p1ScoreX = canvas.width / 2 - 200;
+    var scoreY = 50;
+
+    var p2ScoreX = canvas.width / 2 + 100;
+
+
+    drawNumberBox(p1ScoreX, scoreY);
+    drawNumberBox(p2ScoreX, scoreY);
+
+
+    drawNumber(p1ScoreX, scoreY, player1Score);
+    drawNumber(p2ScoreX, scoreY, player2Score);
+
+    
+
 
     ///TODO: Add Start Screen Game State
     if (!showingWinScreen) {
         drawPaddle();
         drawBall();
         //drawNet();
+
+
+        
+
     } else {
         let winText;
         if (player1Score === MAX_SCORE) {
