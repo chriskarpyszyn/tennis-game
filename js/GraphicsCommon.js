@@ -24,3 +24,4 @@ function drawBitmapCenteredAtLocationWithRotation(graphic, x, y, withAngle) {
     canvasContext.drawImage(graphic, -graphic.width / 2, -graphic.height / 2); //center and draw
     canvasContext.restore(); //undo the translation movement and rotation since save()
 }
+
