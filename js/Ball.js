@@ -23,6 +23,9 @@ var ballArc = 8;
 var soundBallBounce = new SoundOverlap("sound/blip");
 var soundMiss = new SoundOverlap("sound/miss");
 
+var ballLastPosQueue = [];
+var ballLastPosQueueLength = ballArc;
+
 function moveBall() {
     //right paddle collision
     if (ballX >= paddle2X - PADDLE_WIDTH && ballX < paddle2X && ballSpeedX>0) {
@@ -63,6 +66,9 @@ function moveBall() {
 
     ballX += ballSpeedX;
     ballY += ballSpeedY;
+
+    ballLastPosQueue.push({ x: ballX, y: ballY });
+    ballLastPosQueue.shift();
 }
 
 function ballReset() {
@@ -73,6 +79,8 @@ function ballReset() {
     soundMiss.play();
     ballX = canvas.width / 2;
     ballY = canvas.height / 2;
+
+    resetBallLastPosQueue(ballX, ballY);
     ballSpeedX *= -1;
     ballHitCounter = 0;
     changeSpeedKeepDirection(MIN_BALL_SPEED_X);
@@ -88,6 +96,21 @@ function ballReset() {
 function initBall() {
     ballX = canvas.width / 2;
     ballY = canvas.height / 2;
+
+    resetBallLastPosQueue(ballX, ballY);
+}
+
+function resetBallLastPosQueue(x, y) {
+    for (var i = 0; i < ballLastPosQueueLength; i++) {
+        ballLastPosQueue.pop();
+    }
+
+    for (var i = 0; i < ballLastPosQueueLength; i++) {
+        //ballLastPosQueue[i].x = x;
+        //ballLastPosQueue[i].y = y;
+        ballLastPosQueue.push({ x: x, y: y });
+    }
+
 }
 
 function increaseHitCountAndCheckSpeed() {
@@ -114,5 +137,22 @@ function changeSpeedKeepDirection(newBallSpeed) {
 function drawBall() {
     //draw a white circle
     //colorCircle(ballX, ballY, ballArc, "#FFFFFF");
+    drawBallTail();
     drawBitmapCenteredAtLocationWithRotation(ballPic, ballX, ballY, 0);
+}
+
+function drawBallTail() {
+    var tailBallArc = ballArc;
+    for (var i = ballLastPosQueueLength-1; i >= 0; i--) {
+        x = ballLastPosQueue[i].x;
+        y = ballLastPosQueue[i].y;
+
+        colorCircle(x, y, tailBallArc, "#FDFFB5");
+
+        if (tailBallArc > 0) {
+            tailBallArc--;
+        }
+    }
+    
+
 }
