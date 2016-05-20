@@ -18,6 +18,13 @@ var p1_keyHeld_down = false;
 var p2_keyHeld_up = false;
 var p2_keyHeld_down = false;
 
+var slope = 0;
+var yIntercept;
+var anticipatedY;
+
+var firstShot = true;
+
+
 const KEYBOARD_PADDLE_SPEED = 5;
 
 const PADDLE_COMPUTER_MOVE_SPEED = 3;
@@ -26,11 +33,33 @@ const PADDLE_COMPUTER_MOVE_SPEED = 3;
 function moveComputerPaddle() {
     var paddle2Center = paddle2Y + paddle2Height / 2;
 
-    if (ballY > paddle2Center + DEAD_ZONE) {
-        paddle2Y += PADDLE_COMPUTER_MOVE_SPEED;
+    //on first shot, just follow ball. on subsequent shots anticipate based on line intercept.
+    if (ballSpeedX > 0) {
+        if (firstShot) {
+            if (ballY > paddle2Center + DEAD_ZONE) {
+                paddle2Y += PADDLE_COMPUTER_MOVE_SPEED;
+            }
+            if (ballY < paddle2Center - DEAD_ZONE) {
+                paddle2Y -= PADDLE_COMPUTER_MOVE_SPEED;
+            }
+        } else if (anticipatedY > 0 || anticipatedY < canvas.height) {
+
+            if (anticipatedY > paddle2Center + DEAD_ZONE) {
+                paddle2Y += PADDLE_COMPUTER_MOVE_SPEED;
+            }
+            if (anticipatedY < paddle2Center - DEAD_ZONE) {
+                paddle2Y -= PADDLE_COMPUTER_MOVE_SPEED;
+            }
+        }
     }
-    if (ballY < paddle2Center - DEAD_ZONE) {
-        paddle2Y -= PADDLE_COMPUTER_MOVE_SPEED;
+
+    //return to center when ball is moving away from paddle.
+    if (ballSpeedX < 0) {
+        if (paddle2Center > canvas.height/2) {
+            paddle2Y -= PADDLE_COMPUTER_MOVE_SPEED;
+        } else {
+            paddle2Y += PADDLE_COMPUTER_MOVE_SPEED;
+        }
     }
 }
 

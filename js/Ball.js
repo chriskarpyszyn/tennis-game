@@ -35,6 +35,7 @@ function moveBall() {
             var deltaY = ballY - (paddle2Y + paddle2Height / 2);
             ballSpeedY = deltaY * ySpeedMultiplier;
             soundBallBounce.play();
+
         }
     } else if (ballX > canvas.width) {
         player1Score++;
@@ -49,6 +50,9 @@ function moveBall() {
             var deltaY = ballY - (paddle1Y + paddle1Height / 2);
             ballSpeedY = deltaY * ySpeedMultiplier;
             soundBallBounce.play();
+
+            anticipatedY = calculateAnticipatedY(ballSpeedX, ballSpeedY, ballX, ballY);
+            firstShot = false;
         }
     } else if (ballX < 0) {
         player2Score++;
@@ -57,11 +61,11 @@ function moveBall() {
 
     if (ballY >= canvas.height) {
         ballSpeedY *= -1;
-        //soundBallBounce.play();
+        anticipatedY = calculateAnticipatedY(ballSpeedX, ballSpeedY, ballX, ballY);
     }
     if (ballY <= 0) {
         ballSpeedY *= -1;
-        //soundBallBounce.play();
+        anticipatedY = calculateAnticipatedY(ballSpeedX, ballSpeedY, ballX, ballY);
     }
 
     ballX += ballSpeedX;
@@ -71,14 +75,20 @@ function moveBall() {
     ballLastPosQueue.shift();
 }
 
+function calculateAnticipatedY(ballSpeedX, ballSpeedY, ballX, ballY) {
+    slope = ballSpeedY/ballSpeedX;
+    yIntercept = ballY - slope*ballX;
+    return slope*paddle2X+yIntercept;
+}
+
 function ballReset() {
     if (player1Score >= MAX_SCORE || player2Score >= MAX_SCORE) {
         showingWinScreen = true;
     }
-
     soundMiss.play();
     ballX = canvas.width / 2;
     ballY = canvas.height / 2;
+    firstShot = true;
 
     resetBallLastPosQueue(ballX, ballY);
     ballSpeedX *= -1;
@@ -153,6 +163,6 @@ function drawBallTail() {
             tailBallArc--;
         }
     }
-    
+
 
 }
