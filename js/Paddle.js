@@ -22,9 +22,6 @@ var slope = 0;
 var yIntercept;
 var anticipatedY;
 
-var firstShot = true;
-
-
 const KEYBOARD_PADDLE_SPEED = 5;
 
 const PADDLE_COMPUTER_MOVE_SPEED = 3;
@@ -35,21 +32,14 @@ function moveComputerPaddle() {
 
     //on first shot, just follow ball. on subsequent shots anticipate based on line intercept.
     if (ballSpeedX > 0) {
-        if (firstShot) {
-            if (ballY > paddle2Center + DEAD_ZONE) {
-                paddle2Y += PADDLE_COMPUTER_MOVE_SPEED;
-            }
-            if (ballY < paddle2Center - DEAD_ZONE) {
-                paddle2Y -= PADDLE_COMPUTER_MOVE_SPEED;
-            }
-        } else if (anticipatedY > 0 || anticipatedY < canvas.height) {
+        (anticipatedY > 0 || anticipatedY < canvas.height)
 
-            if (anticipatedY > paddle2Center + DEAD_ZONE) {
-                paddle2Y += PADDLE_COMPUTER_MOVE_SPEED;
-            }
-            if (anticipatedY < paddle2Center - DEAD_ZONE) {
-                paddle2Y -= PADDLE_COMPUTER_MOVE_SPEED;
-            }
+
+        if (anticipatedY > paddle2Center + DEAD_ZONE) {
+            paddle2Y += PADDLE_COMPUTER_MOVE_SPEED;
+        }
+        if (anticipatedY < paddle2Center - DEAD_ZONE) {
+            paddle2Y -= PADDLE_COMPUTER_MOVE_SPEED;
         }
     }
 

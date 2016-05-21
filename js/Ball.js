@@ -26,24 +26,29 @@ var soundMiss = new SoundOverlap("sound/miss");
 var ballLastPosQueue = [];
 var ballLastPosQueueLength = ballArc;
 
+var collisionY1;
+var collisionY2;
+
 function moveBall() {
     //right paddle collision
     if (ballX >= paddle2X - PADDLE_WIDTH && ballX < paddle2X && ballSpeedX>0) {
-        if (ballY > paddle2Y && ballY < paddle2Y + paddle2Height) {
+        if (collisionY2 > paddle2Y && collisionY2 < paddle2Y + paddle2Height) {
             ballSpeedX *= -1;
             increaseHitCountAndCheckSpeed();
             var deltaY = ballY - (paddle2Y + paddle2Height / 2);
             ballSpeedY = deltaY * ySpeedMultiplier;
             soundBallBounce.play();
+            collisionY1 = calculateAnticipatedY(ballSpeedX, ballSpeedY, ballX, ballY);
 
         }
     } else if (ballX > canvas.width) {
         player1Score++;
         ballReset();
+
     }
     //left paddle collision
     if (ballX < paddle1X+PADDLE_WIDTH && ballX > paddle1X && ballSpeedX <0) {
-        if (ballY > paddle1Y && ballY < paddle1Y + paddle1Height ) {
+        if (collisionY1 > paddle1Y && collisionY1 < paddle1Y + paddle1Height) {
             ballSpeedX *= -1;
             increaseHitCountAndCheckSpeed();
             //collision test Y
@@ -52,6 +57,7 @@ function moveBall() {
             soundBallBounce.play();
 
             anticipatedY = calculateAnticipatedY(ballSpeedX, ballSpeedY, ballX, ballY);
+            collisionY2 = anticipatedY;
             firstShot = false;
         }
     } else if (ballX < 0) {
@@ -62,10 +68,14 @@ function moveBall() {
     if (ballY >= canvas.height) {
         ballSpeedY *= -1;
         anticipatedY = calculateAnticipatedY(ballSpeedX, ballSpeedY, ballX, ballY);
+        collisionY1 = anticipatedY;
+        collisionY2 = anticipatedY;
     }
     if (ballY <= 0) {
         ballSpeedY *= -1;
         anticipatedY = calculateAnticipatedY(ballSpeedX, ballSpeedY, ballX, ballY);
+        collisionY1 = anticipatedY;
+        collisionY2 = anticipatedY;
     }
 
     ballX += ballSpeedX;
@@ -76,10 +86,18 @@ function moveBall() {
 }
 
 function calculateAnticipatedY(ballSpeedX, ballSpeedY, ballX, ballY) {
-    slope = ballSpeedY/ballSpeedX;
-    yIntercept = ballY - slope*ballX;
-    return slope*paddle2X+yIntercept;
+
+    slope = ballSpeedY / ballSpeedX;
+    yIntercept = ballY - slope * ballX;
+    //towards right paddle
+    if (ballSpeedX > 0) {
+        return slope * paddle2X + yIntercept;
+    } else { //towards left paddle
+        return slope * paddle1X + yIntercept;
+    }
 }
+
+
 
 function ballReset() {
     if (player1Score >= MAX_SCORE || player2Score >= MAX_SCORE) {
@@ -99,13 +117,18 @@ function ballReset() {
     console.log(ballSpeedY);
     if (Math.random() > 0.5) {
         ballSpeedY *= -1.0;
-        console.log(ballSpeedY);
     }
+
+    collisionY1 = calculateAnticipatedY(ballSpeedX, ballSpeedY, ballX, ballY);
+    collisionY2 = calculateAnticipatedY(ballSpeedX, ballSpeedY, ballX, ballY);
 }
 
 function initBall() {
     ballX = canvas.width / 2;
     ballY = canvas.height / 2;
+
+    collisionY1 = calculateAnticipatedY(ballSpeedX, ballSpeedY, ballX, ballY);
+    collisionY2 = collisionY1;
 
     resetBallLastPosQueue(ballX, ballY);
 }
