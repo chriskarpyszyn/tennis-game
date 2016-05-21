@@ -26,26 +26,31 @@ const KEYBOARD_PADDLE_SPEED = 5;
 
 const PADDLE_COMPUTER_MOVE_SPEED = 3;
 
+const PADDLE_GUTTER_MARGIN = 1;
+
+
 
 function moveComputerPaddle() {
     var paddle2Center = paddle2Y + paddle2Height / 2;
 
     //on first shot, just follow ball. on subsequent shots anticipate based on line intercept.
     if (ballSpeedX > 0) {
-        (anticipatedY > 0 || anticipatedY < canvas.height)
-
+        (anticipatedY > 0 && anticipatedY < canvas.height);
 
         if (anticipatedY > paddle2Center + DEAD_ZONE) {
-            paddle2Y += PADDLE_COMPUTER_MOVE_SPEED;
+            if (paddle2Y + PADDLE_HEIGHT < canvas.height - ballArc * 2 + PADDLE_GUTTER_MARGIN) { //lower gutter space
+                paddle2Y += PADDLE_COMPUTER_MOVE_SPEED;
+            }
         }
         if (anticipatedY < paddle2Center - DEAD_ZONE) {
+            if (paddle2Y > ballArc * 2 + PADDLE_GUTTER_MARGIN)
             paddle2Y -= PADDLE_COMPUTER_MOVE_SPEED;
         }
     }
 
     //return to center when ball is moving away from paddle.
     if (ballSpeedX < 0) {
-        if (paddle2Center > canvas.height/2) {
+        if (paddle2Center > canvas.height / 2) {
             paddle2Y -= PADDLE_COMPUTER_MOVE_SPEED;
         } else {
             paddle2Y += PADDLE_COMPUTER_MOVE_SPEED;

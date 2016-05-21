@@ -106,7 +106,6 @@ function ballReset() {
     soundMiss.play();
     ballX = canvas.width / 2;
     ballY = canvas.height / 2;
-    firstShot = true;
 
     resetBallLastPosQueue(ballX, ballY);
     ballSpeedX *= -1;
@@ -121,6 +120,7 @@ function ballReset() {
 
     collisionY1 = calculateAnticipatedY(ballSpeedX, ballSpeedY, ballX, ballY);
     collisionY2 = calculateAnticipatedY(ballSpeedX, ballSpeedY, ballX, ballY);
+    anticipatedY = collisionY1;
 }
 
 function initBall() {
@@ -129,6 +129,7 @@ function initBall() {
 
     collisionY1 = calculateAnticipatedY(ballSpeedX, ballSpeedY, ballX, ballY);
     collisionY2 = collisionY1;
+    anticipatedY = collisionY1;
 
     resetBallLastPosQueue(ballX, ballY);
 }
